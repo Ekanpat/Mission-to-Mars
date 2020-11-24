@@ -117,7 +117,6 @@ def mars_hemi(browser):
     main_url = "https://astrogeology.usgs.gov"
     # Executing some stuff and assigning variables to images and titles
     images = astro_soup.find("div", class_="collapsible results")
-    titles = astro_soup.find('h3').text
     # Creating a  temporary list to hold the specific image urls
     hemisphere_urls = []
     all_images = images.find_all('div', class_ = 'description')
@@ -137,19 +136,18 @@ def mars_hemi(browser):
         html = browser.html
         hemi_soup = soup(html, "html.parser")
     ## Retrieve the full-resolution image URL
-    image = hemi_soup.find('img', class_="wide-image")['src']
-    ## Retrieve the titles
-    titles = browser.find_by_css("h2.title").text
-    # Saving the full-resolution image URL string
-    hemisphere['img_url'] = main_url + image
-    # Saving the the hemisphere image title as string
-    hemisphere['title'] = titles
-    hemisphere_image_urls.append(hemisphere)
-    # print(datetime.datetime.now() - begin_time)
+        image = hemi_soup.find('img', class_="wide-image")['src']
+        ## Retrieve the titles
+        titles = browser.find_by_css("h2.title").text
+        # Saving the full-resolution image URL string
+        hemisphere['img_url'] = main_url + image
+        # Saving the the hemisphere image title as string
+        hemisphere['title'] = titles
+        hemisphere_image_urls.append(hemisphere)
+        # print(datetime.datetime.now() - begin_time)
 
     return hemisphere_image_urls
     
 if __name__ == "__main__":
-
     # If running as script, print scraped data
     print(scrape_all())
